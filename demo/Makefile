@@ -1,5 +1,6 @@
 include ../make.inc
-LIBS = -L. ../lib/libnicslu.a ../util/nicslu_util.a -lrt -lpthread -lm
+#LIBS = -L. ../lib/libnicslu.a ../util/nicslu_util.a -lrt -lpthread -lm
+LIBS = -L. ../lib/libnicslu.a ../util/nicslu_util.a -lpthread -lm
 INC = -I ../include/ -I ../util/
 
 all: demos demop

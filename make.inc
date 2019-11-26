@@ -1,7 +1,9 @@
-CC = gcc
+CC = clang
+#AR = llvm-ar -r
 AR = ar -r
+#RANLIB = llvm-ranlib
 RANLIB = ranlib
-MACROS = -DNO_ATOMIC -DSSE2 #-DNICS_INT64 #-DNO_EXTENSION
+MACROS = -DNO_ATOMIC -DSSE2 -DNO_EXTENSION #-DNICS_INT64
 ARCH = -msse2
 CFLAGS = -c -O2 -fPIC -Wall -Wextra $(ARCH) $(MACROS)
 LFLAGS = 

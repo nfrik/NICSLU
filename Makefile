@@ -1,21 +1,21 @@
 all:
-	(cd lib; make)
-	(cd util; make)
-	(cd demo; make)
+	(cd lib; $(MAKE))
+	(cd util; $(MAKE))
+	(cd demo; $(MAKE))
 
 lib:
-	(cd lib; make)
+	(cd lib; $(MAKE))
 
 util:
-	(cd util; make)
+	(cd util; $(MAKE))
 
 demo:
-	(cd demo; make)
+	(cd demo; $(MAKE))
 
 clean:
-	(cd lib; make clean)
-	(cd util; make clean)
-	(cd demo; make clean)
+	(cd lib; $(MAKE) clean)
+	(cd util; $(MAKE) clean)
+	(cd demo; $(MAKE) clean)
 
 install:
 	mkdir ../../../build/include/omc/c/nicslu

@@ -6,9 +6,14 @@
 #include <Windows.h>
 #include <Psapi.h>
 #else
+#include <sys/sysctl.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/resource.h>
+#endif
+
+#ifndef ARRAY_SIZE
+#define ARRAY_SIZE(a)	(sizeof(a)/sizeof((a)[0]))
 #endif
 
 int GetProcessorNumber()
@@ -148,8 +153,13 @@ int GetSystemMemory(unsigned long long *phys, unsigned long long *availphys, uns
 {
 #ifdef _WIN32
 	MEMORYSTATUSEX ms;
-#else
+#elif defined (_SC_PAGESIZE) && defined (_SC_AVPHYS_PAGES)
 	long long page_size;
+	struct rlimit rl;
+#else
+	unsigned int usermem;
+	size_t len = sizeof usermem;
+	static int mib[2] = { CTL_HW, HW_USERMEM };
 	struct rlimit rl;
 #endif
 
@@ -161,10 +171,15 @@ int GetSystemMemory(unsigned long long *phys, unsigned long long *availphys, uns
 	*phys = ms.ullTotalPhys;
 	*virt = ms.ullTotalVirtual;
 	*availphys = ms.ullAvailPhys;
-#else
+#elif defined (_SC_PAGESIZE) && defined (_SC_AVPHYS_PAGES)
 	page_size = sysconf(_SC_PAGESIZE);
 	*phys = sysconf(_SC_PHYS_PAGES) * page_size;
 	*availphys = sysconf(_SC_AVPHYS_PAGES) * page_size;
+	getrlimit(RLIMIT_AS, &rl);
+	*virt = rl.rlim_cur;
+#else
+	sysctl(mib, ARRAY_SIZE(mib), &usermem, &len, NULL, 0);
+	*availphys = (unsigned long long)usermem;
 	getrlimit(RLIMIT_AS, &rl);
 	*virt = rl.rlim_cur;
 #endif
