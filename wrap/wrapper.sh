@@ -1,9 +1,12 @@
 #!/bin/bash
+
+set -ex
+
 cd ..
 make
 cd wrap
 mkdir -p com/nicslu/jni
-mv NativeUtils.java com/nicslu/jni
+cp NativeUtils.java com/nicslu/jni
 javac com/nicslu/jni/NativeUtils.java
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD
 swig -java -package com.nicslu.jni -outdir com/nicslu/jni -o nicslu_readfile_wrap.c nicslu_readfile.i

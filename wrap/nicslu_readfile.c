@@ -6,7 +6,7 @@
 
 #define FAIL(code)	((code) < NICS_OK)
 
-static int ReadHeader3(FILE *f, uint__t *m, uint__t *n, uint__t *nnz)
+int ReadHeader3(FILE *f, uint__t *m, uint__t *n, uint__t *nnz)
 {
 	char line[ROW_LENGTH];
 	int read;
@@ -50,7 +50,7 @@ static int ReadHeader3(FILE *f, uint__t *m, uint__t *n, uint__t *nnz)
 	return NICS_OK;
 }
 
-static int ReadHeader2(FILE *f, uint__t *m, uint__t *n, uint__t *nnz)
+int ReadHeader2(FILE *f, uint__t *m, uint__t *n, uint__t *nnz)
 {
 	char line[ROW_LENGTH];
 	int read;
