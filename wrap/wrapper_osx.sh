@@ -13,6 +13,8 @@ swig -java -package com.nicslu.jni -outdir com/nicslu/jni -o nicslu_readfile_wra
 gcc -c -fPIC nicslu_readfile.c nicslu_readfile_wrap.c  -I"$(/usr/libexec/java_home)/include" -I"$(/usr/libexec/java_home)/include/darwin"
 swig -java -package com.nicslu.jni -outdir com/nicslu/jni -o nicslu_wrap.c nicslu.i
 gcc -c -fPIC nicslu.c nicslu_wrap.c  -I"$(/usr/libexec/java_home)/include" -I"$(/usr/libexec/java_home)/include/darwin"
-gcc -dynamiclib  nicslu.o  nicslu_wrap.o nicslu_readfile.o nicslu_readfile_wrap.o ../lib/libnicslu.a -o libnicslu.dylib #-lpthread -lm #-lc #-lrt-lm #-lrt
+gcc -dynamiclib  nicslu.o  nicslu_wrap.o nicslu_readfile.o nicslu_readfile_wrap.o ../lib/libnicslu.a -o libnicslu.dylib -lpthread -lm #-lrt
 javac test.java
 jar cvf nicslu.jar com/nicslu/jni/*.class libnicslu.so
+java -cp . -Djava.library.path=. test 2
+
